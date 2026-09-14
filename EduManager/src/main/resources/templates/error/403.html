@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso Denegado - 403</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="error-page">
+        <h1> 403</h1>
+        <h2>Acceso Denegado</h2>
+        <p>No tiene permisos para acceder a este recurso.</p>
+        <p>Si cree que esto es un error, contacte al administrador.</p>
+        <a th:href="@{/alumno/lista}" class="btn-primary">Volver al inicio</a>
+    </div>
+</body>
+</html>

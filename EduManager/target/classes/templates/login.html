@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>🔐 Acceso Administrador</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h2>🔐 Acceso Administrador</h2>
+        <p style="text-align: center; color: var(--gray); margin-bottom: 25px;">
+            Solo personal autorizado puede ingresar al sistema de gestión.
+        </p>
+        
+        <div th:if="${param.error}" class="alert error">
+            ❌ Usuario o contraseña incorrectos
+        </div>
+        
+        <div th:if="${param.logout}" class="alert success">
+            ✅ Ha cerrado sesión correctamente
+        </div>
+
+        <form th:action="@{/loginProcess}" method="post">
+            <div class="form-group">
+                <label>👤 Usuario:</label>
+                <input type="text" name="username" required placeholder="Ingrese su usuario">
+            </div>
+            <div class="form-group">
+                <label>🔑 Contraseña:</label>
+                <input type="password" name="password" required placeholder="Ingrese su contraseña">
+            </div>
+            <button type="submit">🚀 Ingresar</button>
+        </form>
+
+        <p style="text-align: center; margin-top: 25px;">
+            <a th:href="@{/}" style="color: var(--gray);"> Volver al inicio</a>
+        </p>
+    </div>
+</body>
+</html>

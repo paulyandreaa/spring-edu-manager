@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>️ Detalle del Alumno</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h2>👁️ Detalle del Alumno</h2>
+
+        <div class="detalle">
+            <p><strong>🆔 RUT:</strong> <span th:text="${alumno.rut}"></span></p>
+            <p><strong>👤 Nombre:</strong> <span th:text="${alumno.nombre}"></span></p>
+            <p><strong>👨 Primer Apellido:</strong> <span th:text="${alumno.primerApellido}"></span></p>
+            <p><strong>👩 Segundo Apellido:</strong> <span th:text="${alumno.segundoApellido}"></span></p>
+            <p><strong> Fecha de Nacimiento:</strong> <span th:text="${alumno.fechaNacimiento}"></span></p>
+            <p><strong>🏠 Dirección:</strong> <span th:text="${alumno.direccion}"></span></p>
+            <p><strong>📍 Comuna:</strong> <span th:text="${alumno.comuna}"></span></p>
+            <p><strong>🎓 Carrera:</strong> <span th:text="${alumno.carrera.descripcion}"></span></p>
+            <p><strong>📧 Email:</strong> <span th:text="${alumno.email}"></span></p>
+            <p><strong>📱 Teléfono:</strong> <span th:text="${alumno.telefono}"></span></p>
+            <p><strong>✅ Matriculado:</strong> 
+                <span th:if="${alumno.matriculado}">Sí</span>
+                <span th:unless="${alumno.matriculado}">No</span>
+            </p>
+        </div>
+
+        <nav class="button-group">
+            <a th:href="@{/alumno/lista}" class="btn-secondary">️ Volver a la lista</a>
+            <a sec:authorize="hasRole('ADMIN')" 
+               th:href="@{/alumno/editar/{id}(id=${alumno.id})}" class="btn-primary">✏️ Editar</a>
+        </nav>
+    </div>
+</body>
+</html>

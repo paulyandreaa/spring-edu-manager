@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>📋 Lista de Alumnos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>📋 Lista de Alumnos</h1>
+        <p>Gestión completa de estudiantes registrados</p>
+    </header>
+
+    <nav>
+        <a th:href="@{/alumno/buscar}">🔍 Buscar</a>
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/alumno/nuevo}">➕ Nuevo Alumno</a>
+        <a th:href="@{/logout}">🚪 Cerrar Sesión</a>
+    </nav>
+
+    <div class="container" style="max-width: 1400px;">
+        <div th:if="${exito}" class="alert success" th:text="${exito}"></div>
+
+        <div style="overflow-x: auto;">
+            <table th:if="${!#lists.isEmpty(alumnos)}">
+                <thead>
+                    <tr>
+                        <th>🆔 RUT</th>
+                        <th>👤 Nombre Completo</th>
+                        <th>🎓 Carrera</th>
+                        <th>📧 Email</th>
+                        <th style="text-align: center;">✅ Matrícula</th>
+                        <th>⚙️ Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="alumno : ${alumnos}">
+                        <td style="white-space: nowrap; font-weight: 600;" th:text="${alumno.rut}"></td>
+                        <td th:text="${alumno.nombreCompleto}"></td>
+                        <td th:text="${alumno.carrera.descripcion}"></td>
+                        <td th:text="${alumno.email}"></td>
+                        <td style="text-align: center;">
+                            <span th:if="${alumno.matriculado}">✅ Sí</span>
+                            <span th:unless="${alumno.matriculado}">❌ No</span>
+                        </td>
+                        <td style="white-space: nowrap;">
+                            <a th:href="@{/alumno/detalle/{id}(id=${alumno.id})}">👁️ Ver</a>
+                            <a sec:authorize="hasRole('ADMIN')" 
+                               th:href="@{/alumno/editar/{id}(id=${alumno.id})}">✏️ Editar</a>
+                            <a sec:authorize="hasRole('ADMIN')" 
+                               th:href="@{/alumno/eliminar/{id}(id=${alumno.id})}"
+                               onclick="return confirm('⚠️ ¿Está seguro de eliminar este alumno?')">🗑️ Eliminar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${#lists.isEmpty(alumnos)}" style="text-align: center; padding: 40px;">
+            <p style="font-size: 1.2rem; color: var(--gray);">📭 No hay alumnos registrados aún.</p>
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/alumno/nuevo}" class="btn-primary"> Registrar primer alumno</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>🎓 SpringEduManager © 2026</p>
+    </footer>
+</body>
+</html>

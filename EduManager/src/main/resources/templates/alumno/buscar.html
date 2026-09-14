@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>🔍 Buscar Alumnos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>🔍 Buscar Alumnos</h1>
+        <p>Encuentra alumnos por nombre, apellido, RUT o carrera</p>
+    </header>
+
+    <nav>
+        <a th:href="@{/}">🏠 Inicio</a>
+        <a th:href="@{/alumno/buscar}">🔄 Nueva Búsqueda</a>
+    </nav>
+
+    <div class="container" style="max-width: 1200px;">
+        <div class="search-form">
+            <h3>📝 Buscar por Nombre, Apellido o RUT</h3>
+            <form th:action="@{/alumno/buscar/texto}" method="get">
+                <div class="form-group">
+                    <input type="text" name="texto" placeholder="🔍 Ingrese texto a buscar..." required>
+                </div>
+                <button type="submit">🔍 Buscar</button>
+            </form>
+        </div>
+
+        <div class="search-form">
+            <h3> Buscar por Carrera y Matrícula</h3>
+            <form th:action="@{/alumno/buscar/carrera}" method="get">
+                <div class="form-group">
+                    <label>Carrera:</label>
+                    <select name="carrera" required>
+                        <option value="">-- Seleccione --</option>
+                        <option th:each="c : ${carreras}" 
+                                th:value="${c}" 
+                                th:text="${c.descripcion}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Estado de Matrícula:</label>
+                    <select name="matriculado" required>
+                        <option value="true">✅ Matriculados</option>
+                        <option value="false">❌ No Matriculados</option>
+                    </select>
+                </div>
+                <button type="submit"> Buscar</button>
+            </form>
+        </div>
+
+        <div th:if="${resultados != null}">
+            <h3> Resultados (<span th:text="${#lists.size(resultados)}"></span>)</h3>
+            
+            <div style="overflow-x: auto;">
+                <table th:if="${!#lists.isEmpty(resultados)}">
+                    <thead>
+                        <tr>
+                            <th>👤 Nombre Completo</th>
+                            <th>🎓 Carrera</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="alumno : ${resultados}">
+                            <td style="font-weight: 600;" th:text="${alumno.nombreCompleto}"></td>
+                            <td th:text="${alumno.carrera.descripcion}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p th:if="${#lists.isEmpty(resultados)}" class="alert error">😕 No se encontraron alumnos con ese criterio.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>🎓 SpringEduManager © 2026</p>
+    </footer>
+</body>
+</html>

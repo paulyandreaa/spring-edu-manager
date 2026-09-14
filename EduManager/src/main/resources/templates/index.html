@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>🎓 SpringEduManager - Inicio</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>🎓 SpringEduManager</h1>
+        <p>✨ Sistema de Consulta y Gestión de Alumnos ✨</p>
+    </header>
+
+    <nav>
+        <a th:href="@{/login}">🔐 Acceso Administrador</a>
+    </nav>
+
+    <main>
+        <section class="bienvenida">
+            <h2>🔍 Busca Alumnos Registrados</h2>
+            <p>Consulta la información de alumnos por nombre, apellido o RUT. 🚀</p>
+            
+            <div class="search-form" style="max-width: 600px; margin: 30px auto;">
+                <form th:action="@{/alumno/buscar/texto}" method="get">
+                    <div class="form-group">
+                        <input type="text" name="texto" placeholder="🔍 Ingrese nombre, apellido o RUT..." required>
+                    </div>
+                    <button type="submit"> Buscar Alumno</button>
+                </form>
+            </div>
+
+            <div th:if="${resultados != null}" style="margin-top: 40px;">
+                <h3>📊 Resultados (<span th:text="${#lists.size(resultados)}"></span>)</h3>
+                
+                <table th:if="${!#lists.isEmpty(resultados)}">
+                    <thead>
+                        <tr>
+                            <th>👤 Nombre Completo</th>
+                            <th>🎓 Carrera</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="alumno : ${resultados}">
+                            <td th:text="${alumno.nombreCompleto}"></td>
+                            <td th:text="${alumno.carrera.descripcion}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <p th:if="${#lists.isEmpty(resultados)}" class="alert error">😕 No se encontraron alumnos con ese criterio.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 🎓 SpringEduManager 💻</p>
+    </footer>
+</body>
+</html>
